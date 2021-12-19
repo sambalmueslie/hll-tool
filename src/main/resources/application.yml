@@ -3,6 +3,7 @@ micronaut:
     name: HLL-Tool
   server:
     thread-selection: AUTO
+
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/postgres

@@ -47,6 +47,7 @@ class ServerInstance(
 
     fun isMapTrackingEnabled() = settings.mapTrackingEnabled
     fun isSlotTrackingEnabled() = settings.slotTrackingEnabled
+    fun isLogTrackingEnabled() = settings.logTrackingEnabled
 
     fun disconnect() {
         hllAPI.disconnect()

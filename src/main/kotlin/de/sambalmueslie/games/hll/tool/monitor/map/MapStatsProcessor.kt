@@ -5,6 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
 import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeEvent
 import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeEventStats
+import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeListener
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapData
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapRepository
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapStatsData

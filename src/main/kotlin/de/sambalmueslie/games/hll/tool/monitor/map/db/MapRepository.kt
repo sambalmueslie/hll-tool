@@ -9,5 +9,6 @@ import io.micronaut.data.repository.PageableRepository
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface MapRepository : PageableRepository<MapData, Long> {
     fun findFirst1ByServerIdOrderByTimestampDesc(serverId: Long): MapData?
+    fun findFirst5ByServerIdOrderByTimestampDesc(serverId: Long): List<MapData>
     fun findFirst1ByServerIdAndNameOrderByTimestampDesc(serverId: Long, name: String): MapData?
 }

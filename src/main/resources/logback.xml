@@ -14,6 +14,7 @@
     </root>
 
     <logger name="io.micronaut.context.condition" level="INFO"/>
+    <logger name="io.micronaut.runtime" level="INFO"/>
     <logger name="org.flywaydb" level="INFO"/>
     <logger name="org.apache.kafka" level="INFO"/>
 </configuration>

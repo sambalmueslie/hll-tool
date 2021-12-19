@@ -4,12 +4,13 @@ package de.sambalmueslie.games.hll.tool.monitor.map
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
 import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeEvent
+import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeListener
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapData
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapRepository
 import de.sambalmueslie.games.hll.tool.monitor.map.kafka.MapChangeEventProducer
 import de.sambalmueslie.games.hll.tool.monitor.server.ServerInstance
-import de.sambalmueslie.games.hll.tool.monitor.server.ServerProcessor
-import io.micronaut.scheduling.annotation.Scheduled
+import de.sambalmueslie.games.hll.tool.monitor.server.ServerInstanceProcessor
+import de.sambalmueslie.games.hll.tool.util.forEachWithTryCatch
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,14 +19,15 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Singleton
-open class MapChangeEventProcessor(
-    private val serverProcessor: ServerProcessor,
+class MapChangeEventProcessor(
     private val eventProducer: MapChangeEventProducer,
-    private val repository: MapRepository
-) {
+    private val repository: MapRepository,
+    private val listener: Set<MapChangeListener>
+) : ServerInstanceProcessor {
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(MapChangeEventProcessor::class.java)
+        const val CYCLE_COUNT_LIMIT = 5
     }
 
     private val currentMapCache: LoadingCache<Long, MapData> = Caffeine.newBuilder()
@@ -35,9 +37,13 @@ open class MapChangeEventProcessor(
 
     fun getCurrentMap(serverId: Long) = currentMapCache[serverId]
 
-    @Scheduled(fixedDelay = "10s")
-    open fun updateMap() {
-        serverProcessor.instances.filter { it.isMapTrackingEnabled() }.forEach { updateServerMap(it) }
+    private var cycleCount = 0
+    override fun runCycle(instance: ServerInstance) {
+        if (!instance.isMapTrackingEnabled()) return
+        cycleCount++
+        if (cycleCount < CYCLE_COUNT_LIMIT) return
+        updateServerMap(instance)
+        cycleCount = 0
     }
 
     private fun updateServerMap(instance: ServerInstance) {
@@ -58,5 +64,6 @@ open class MapChangeEventProcessor(
         currentMapCache.put(instance.id, data)
 
         eventProducer.sendEvent(instance.id, MapChangeEvent(data.id, data.name, timestamp))
+        listener.forEachWithTryCatch { it.handleMapChanged(instance, data) }
     }
 }
