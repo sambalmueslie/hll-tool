@@ -1,0 +1,27 @@
+micronaut:
+  application:
+    name: HLL-Tool
+  server:
+    thread-selection: AUTO
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    schema-generate: NONE
+    dialect: POSTGRES
+    schema: hll_tool
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+      default-schema: hll_tool
+      create-schemas: true
+      schemas: hll_tool
+
+kafka:
+  security.protocol: "SASL_SSL"
+  sasl:
+    mechanism: "PLAIN"
