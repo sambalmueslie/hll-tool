@@ -3,6 +3,10 @@ micronaut:
     name: HLL-Tool
   server:
     thread-selection: AUTO
+  executors:
+    scheduled:
+      type: scheduled
+      core-pool-size: 30
 
 datasources:
   default:
@@ -24,5 +28,4 @@ flyway:
 
 kafka:
   security.protocol: "SASL_SSL"
-  sasl:
-    mechanism: "PLAIN"
+  sasl.mechanism: "PLAIN"

@@ -6,39 +6,47 @@ import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerRepository
 import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerSettingsRepository
 import de.sambalmueslie.games.hll.tool.util.findByIdOrNull
 import de.sambalmueslie.games.hll.tool.util.forEachWithTryCatch
-import io.micronaut.scheduling.annotation.Scheduled
+import io.micronaut.context.event.ApplicationEventListener
+import io.micronaut.runtime.server.event.ServerStartupEvent
+import io.micronaut.scheduling.TaskExecutors
+import io.micronaut.scheduling.TaskScheduler
+import jakarta.inject.Named
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.Duration
+import kotlin.system.measureTimeMillis
 
 @Singleton
 open class ServerProcessor(
     private val repository: ServerRepository,
     private val settingsRepository: ServerSettingsRepository,
-    private val processors: Set<ServerInstanceProcessor>
-) {
+    private val processors: Set<ServerInstanceProcessor>,
+    @param:Named(TaskExecutors.SCHEDULED) private val taskScheduler: TaskScheduler
+) : ApplicationEventListener<ServerStartupEvent> {
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ServerProcessor::class.java)
+        private val DELAY = Duration.ofSeconds(2)
     }
 
-    private var initialized: Boolean = false
-
-    @Scheduled(fixedDelay = "2s", initialDelay = "10s")
-    open fun runPollJobs() {
-        if (!initialized) initialize()
-
-        _instances.values.forEachWithTryCatch { instance -> processors.forEach { it.runCycle(instance) } }
-    }
-
-    private fun initialize() {
+    override fun onApplicationEvent(event: ServerStartupEvent) {
         repository.findAll().forEachWithTryCatch { setupServer(it) }
-        initialized = true
+
+        taskScheduler.scheduleWithFixedDelay(null, DELAY) {
+            instances.values.forEachWithTryCatch { runServerCycle(it) }
+        }
     }
 
-    private val _instances = mutableMapOf<Long, ServerInstance>()
+    private fun runServerCycle(instance: ServerInstance) {
+        val duration = measureTimeMillis { processors.forEach { it.runCycle(instance) } }
+        logger.debug("[${instance.id}] Run server cycle ${instance.name} within $duration ms.")
+    }
+
+    private val instances = mutableMapOf<Long, ServerInstance>()
 
     private fun setupServer(data: ServerData) {
+        logger.info("[${data.id}] Setup Server ${data.name}")
         val settings = settingsRepository.findByIdOrNull(data.id) ?: return logger.error("Cannot find server settings for ${data.name}")
         val instance = ServerInstance(data, settings)
 
@@ -49,13 +57,12 @@ open class ServerProcessor(
         }
 
         if (instance.isEnabled()) {
-            _instances[data.id] = instance
+            instances[data.id] = instance
         } else {
             instance.disconnect()
         }
     }
 
-    val instances: Collection<ServerInstance> = _instances.values
-    fun getInstanceByServerId(serverId: Long) = _instances[serverId]
+    fun getInstanceByServerId(serverId: Long) = instances[serverId]
 
 }

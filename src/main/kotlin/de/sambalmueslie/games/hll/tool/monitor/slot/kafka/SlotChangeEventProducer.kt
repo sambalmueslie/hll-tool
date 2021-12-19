@@ -5,7 +5,7 @@ import io.micronaut.configuration.kafka.annotation.KafkaClient
 import io.micronaut.configuration.kafka.annotation.KafkaKey
 import io.micronaut.configuration.kafka.annotation.Topic
 
-@KafkaClient()
+@KafkaClient(id = "hll-tool")
 interface SlotChangeEventProducer {
     @Topic(TOPIC)
     fun sendEvent(@KafkaKey key: String, event: SlotsChangeEvent)
