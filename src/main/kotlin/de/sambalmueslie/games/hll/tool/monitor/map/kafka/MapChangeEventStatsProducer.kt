@@ -5,7 +5,7 @@ import io.micronaut.configuration.kafka.annotation.KafkaClient
 import io.micronaut.configuration.kafka.annotation.KafkaKey
 import io.micronaut.configuration.kafka.annotation.Topic
 
-@KafkaClient(id = "hll-tool")
+@KafkaClient()
 interface MapChangeEventStatsProducer {
     @Topic(TOPIC)
     fun sendEvent(@KafkaKey serverId: Long, event: MapChangeEventStats)
