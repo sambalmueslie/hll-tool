@@ -1,10 +1,6 @@
 package de.sambalmueslie.games.hll.tool.features.mapvote
 
-import de.sambalmueslie.games.hll.tool.monitor.server.ServerInstance
-import discord4j.core.`object`.component.ActionRow
-import discord4j.core.`object`.component.Button
 import discord4j.core.`object`.entity.Message
-import discord4j.core.`object`.entity.channel.GuildMessageChannel
 import discord4j.core.`object`.entity.channel.MessageChannel
 import discord4j.core.`object`.reaction.ReactionEmoji
 import discord4j.core.event.domain.message.MessageCreateEvent
@@ -50,7 +46,7 @@ fun createStartRegistrationMessage(event: MessageCreateEvent, channel: MessageCh
 }
 
 val numberEmoji = listOf(":zero:", ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:")
-val mapVoteEmojis = listOf(
+val numberReactionEmojis = listOf(
     ReactionEmoji.unicode("0️⃣"),
     ReactionEmoji.unicode("1️⃣"),
     ReactionEmoji.unicode("2️⃣"),
@@ -63,17 +59,3 @@ val mapVoteEmojis = listOf(
     ReactionEmoji.unicode("9️⃣"),
     ReactionEmoji.unicode("\uD83D\uDD1F"),
 )
-
-//fun createVoteInfoMessage(channel: GuildMessageChannel, instance: ServerInstance, mapsForVote: Set<String>): Mono<Message> {
-//    val content = StringBuilder("Active map vote for next map")
-//    mapsForVote.forEachIndexed { index, map -> content.append("${numberEmoji[index]} $map") }
-//
-//    val embed = MessageCreateSpec.builder()
-//        .content(content.toString())
-//
-//    val buttons = mapsForVote.mapIndexed { index, map -> Button.primary(map, mapVoteEmojis[index]) }
-//    embed.addComponent(ActionRow.of(buttons))
-//
-//    return channel.createMessage(embed.build())
-//        .flatMap{ msg -> msg.addReaction(mapVoteEmojis[0]) }
-//}

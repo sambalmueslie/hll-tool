@@ -11,6 +11,7 @@ import de.sambalmueslie.games.hll.tool.monitor.map.kafka.MapChangeEventProducer
 import de.sambalmueslie.games.hll.tool.monitor.server.ServerInstance
 import de.sambalmueslie.games.hll.tool.monitor.server.ServerInstanceProcessor
 import de.sambalmueslie.games.hll.tool.util.forEachWithTryCatch
+import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -21,14 +22,16 @@ import java.time.ZoneOffset
 @Singleton
 class MapChangeEventProcessor(
     private val eventProducer: MapChangeEventProducer,
-    private val repository: MapRepository,
-    private val listener: Set<MapChangeListener>
+    private val repository: MapRepository
 ) : ServerInstanceProcessor {
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(MapChangeEventProcessor::class.java)
         const val CYCLE_COUNT_LIMIT = 5
     }
+
+    @Inject
+    lateinit var listener: Set<MapChangeListener>
 
     private val currentMapCache: LoadingCache<Long, MapData> = Caffeine.newBuilder()
         .maximumSize(1000)

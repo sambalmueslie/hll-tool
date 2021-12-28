@@ -1,8 +1,10 @@
 package de.sambalmueslie.games.hll.tool.monitor.server
 
 
+import de.sambalmueslie.games.hll.tool.monitor.server.api.ServerChangeRequest
 import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerData
 import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerRepository
+import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerSettingsData
 import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerSettingsRepository
 import de.sambalmueslie.games.hll.tool.util.findByIdOrNull
 import de.sambalmueslie.games.hll.tool.util.forEachWithTryCatch
@@ -18,7 +20,7 @@ import java.time.Duration
 import kotlin.system.measureTimeMillis
 
 @Singleton
-open class ServerProcessor(
+class ServerService(
     private val repository: ServerRepository,
     private val settingsRepository: ServerSettingsRepository,
     private val processors: Set<ServerInstanceProcessor>,
@@ -26,7 +28,7 @@ open class ServerProcessor(
 ) : ApplicationEventListener<ServerStartupEvent> {
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(ServerProcessor::class.java)
+        val logger: Logger = LoggerFactory.getLogger(ServerService::class.java)
         private val DELAY = Duration.ofSeconds(2)
     }
 
@@ -38,6 +40,21 @@ open class ServerProcessor(
         }
     }
 
+    fun create(request: ServerChangeRequest): ServerInstance? {
+        val existing = repository.findByHost(request.host)
+        if (existing != null) return update(existing, request)
+
+        val data = repository.save(ServerData.convert(request))
+        settingsRepository.save(ServerSettingsData.convert(data, request.settings))
+        return setupServer(data)
+    }
+
+    private fun update(data: ServerData, request: ServerChangeRequest): ServerInstance? {
+        // TODO update server data
+        return instances[data.id] ?: setupServer(data)
+    }
+
+
     private fun runServerCycle(instance: ServerInstance) {
         val duration = measureTimeMillis { processors.forEach { it.runCycle(instance) } }
         logger.debug("[${instance.id}] Run server cycle ${instance.name} within $duration ms.")
@@ -45,9 +62,13 @@ open class ServerProcessor(
 
     private val instances = mutableMapOf<Long, ServerInstance>()
 
-    private fun setupServer(data: ServerData) {
+    private fun setupServer(data: ServerData): ServerInstance? {
         logger.info("[${data.id}] Setup Server ${data.name}")
-        val settings = settingsRepository.findByIdOrNull(data.id) ?: return logger.error("Cannot find server settings for ${data.name}")
+        val settings = settingsRepository.findByIdOrNull(data.id)
+        if (settings == null) {
+            logger.error("Cannot find server settings for ${data.name}")
+            return null
+        }
         val instance = ServerInstance(data, settings)
 
         val name = instance.name
@@ -61,6 +82,7 @@ open class ServerProcessor(
         } else {
             instance.disconnect()
         }
+        return instance
     }
 
     fun getInstanceByServerId(serverId: Long) = instances[serverId]

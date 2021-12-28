@@ -6,5 +6,5 @@ import io.micronaut.data.repository.PageableRepository
 
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface ServerRepository : PageableRepository<ServerData, Long> {
-
+    fun findByHost(host: String): ServerData?
 }

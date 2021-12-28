@@ -9,4 +9,6 @@ import io.micronaut.data.repository.CrudRepository
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface MapVoteServerSettingsRepository : CrudRepository<MapVoteServerSettingsData, Long> {
     fun findByServerId(serverId: Long): MapVoteServerSettingsData?
+    fun findByGuildId(guildId: Long): MapVoteServerSettingsData?
+    fun findByAdminChannelId(channelId: Long): MapVoteServerSettingsData?
 }

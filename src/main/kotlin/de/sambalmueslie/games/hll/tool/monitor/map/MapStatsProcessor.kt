@@ -5,13 +5,11 @@ import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
 import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeEvent
 import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeEventStats
-import de.sambalmueslie.games.hll.tool.monitor.map.api.MapChangeListener
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapData
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapRepository
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapStatsData
 import de.sambalmueslie.games.hll.tool.monitor.map.db.MapStatsRepository
 import de.sambalmueslie.games.hll.tool.monitor.map.kafka.MapChangeEventStatsProducer
-import de.sambalmueslie.games.hll.tool.monitor.server.ServerProcessor
 import jakarta.inject.Singleton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -21,7 +19,6 @@ import java.time.ZoneOffset
 
 @Singleton
 class MapStatsProcessor(
-    private val serverProcessor: ServerProcessor,
     private val statsProducer: MapChangeEventStatsProducer,
     private val mapRepository: MapRepository,
     private val repository: MapStatsRepository
@@ -38,8 +35,7 @@ class MapStatsProcessor(
         .build { serverId -> mapRepository.findFirst1ByServerIdOrderByTimestampDesc(serverId) }
 
     fun mapChangeEvent(serverId: Long, event: MapChangeEvent) {
-        val instance = serverProcessor.getInstanceByServerId(serverId) ?: return
-        val lastEvent = lastEventCache[instance.id] ?: return
+        val lastEvent = lastEventCache[serverId] ?: return
 
         val duration = Duration.between(lastEvent.timestamp, event.timestamp)
         if (duration > maxDuration) return logger.warn("Ignore event, cause max duration is exceed $duration")
