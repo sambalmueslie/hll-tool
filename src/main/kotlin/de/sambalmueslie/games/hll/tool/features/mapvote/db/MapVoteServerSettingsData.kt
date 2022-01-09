@@ -7,7 +7,7 @@ import javax.persistence.*
 data class MapVoteServerSettingsData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0,
-    @Column(nullable = false)
+    @Column(nullable = true)
     var serverId: Long? = null,
     @Column(nullable = false)
     var enabled: Boolean = false,

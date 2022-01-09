@@ -1,6 +1,7 @@
 package de.sambalmueslie.games.hll.tool.features.mapvote.process
 
 
+import de.sambalmueslie.games.hll.tool.features.mapvote.MapVoteService
 import de.sambalmueslie.games.hll.tool.features.mapvote.db.MapVoteServerSettingsRepository
 import de.sambalmueslie.games.hll.tool.features.mapvote.discord.DiscordConnector
 import de.sambalmueslie.games.hll.tool.features.mapvote.numberEmoji
@@ -24,15 +25,16 @@ import reactor.core.publisher.Mono
 import java.time.Instant
 
 @Singleton
-class MapVoteProcess(
+class MapVoteSetupProcess(
     private val connector: DiscordConnector,
     private val mapRepository: MapRepository,
     private val mapService: MapService,
-    private val repository: MapVoteServerSettingsRepository
+    private val repository: MapVoteServerSettingsRepository,
+    private val service: MapVoteService
 ) : MapChangeListener {
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(MapVoteProcess::class.java)
+        val logger: Logger = LoggerFactory.getLogger(MapVoteSetupProcess::class.java)
     }
 
     override fun handleMapChanged(instance: ServerInstance, data: MapData) {
@@ -43,35 +45,36 @@ class MapVoteProcess(
         val lastMaps = mapRepository.findFirst5ByServerIdOrderByTimestampDesc(instance.id).map { it.name }
 
         val mapsForVote = (availableMaps - lastMaps.toSet()).shuffled().take(settings.mapVoteAmount)
-            .associateWith { mapService.getInfo(it, "en") }
+            .mapNotNull { mapService.getInfo(it, "en") }
 
         logger.info("Maps for vote: $mapsForVote")
         if (mapsForVote.isEmpty()) return
 
-        val info = mapService.getInfo(data.name, "en")
+        val info = mapService.getInfo(data.name, "en")!!
 
         connector.getChannelById(Snowflake.of(settings.userChannelId))
             .ofType(GuildMessageChannel::class.java)
-            .flatMap { it.createMessage(createMapVoteMessage(mapsForVote, data, info)) }
+            .flatMap { it.createMessage(createMapVoteMessage(mapsForVote, info)) }
+            .flatMap { createProcess(it, instance, data, info, mapsForVote) }
             .flatMap { addMapVoteEmojis(it, mapsForVote) }
             .subscribe()
     }
 
-    private fun addMapVoteEmojis(msg: Message, mapsForVote: Map<String, MapInfo?>): Mono<Void> {
+    private fun createProcess(message: Message, instance: ServerInstance, activeMap: MapData, activeMapInfo: MapInfo, mapsForVote: List<MapInfo>): Mono<Message> {
+        service.create(message, instance, activeMap, activeMapInfo, mapsForVote)
+        return Mono.justOrEmpty(message)
+    }
+
+    private fun addMapVoteEmojis(msg: Message, mapsForVote: List<MapInfo>): Mono<Void> {
         return List(mapsForVote.size) { index -> msg.addReaction(numberReactionEmojis[index + 1]) }
             .reduce { last, current -> last.then(current) }
     }
 
-    private fun createMapVoteMessage(mapsForVote: Map<String, MapInfo?>, data: MapData, info: MapInfo?): MessageCreateSpec {
+    private fun createMapVoteMessage(mapsForVote: List<MapInfo>, activeMap: MapInfo): MessageCreateSpec {
         val mapSelectionContent = StringBuilder("")
-        mapsForVote.entries.forEachIndexed { index, entry ->
-            val info = entry.value
+        mapsForVote.forEachIndexed { index, info ->
             val emoji = numberEmoji[index + 1]
-            if (info != null) {
-                mapSelectionContent.append("$emoji **${info.text}** \t ${info.type} \t [${info.attacker.text} vs. ${info.defender.text}] \n\n")
-            } else {
-                mapSelectionContent.append("$emoji ${entry.key} \n\n")
-            }
+            mapSelectionContent.append("$emoji **${info.text}** \t ${info.type} \t [${info.attacker.text} vs. ${info.defender.text}] \n\n")
         }
         val spec = MessageCreateSpec.builder()
             .content("Active map vote for next map")
@@ -79,11 +82,7 @@ class MapVoteProcess(
             .color(Color.GRAY)
             .description(mapSelectionContent.toString())
             .timestamp(Instant.now())
-        if(info == null){
-            embed.title("${data.name}")
-        } else {
-            embed.title("**${info.text}** \t ${info.type} \t [${info.attacker.text} vs. ${info.defender.text}]")
-        }
+            .title("**${activeMap.text}** \t ${activeMap.type} \t [${activeMap.attacker.text} vs. ${activeMap.defender.text}]")
         spec.addEmbed(embed.build())
         return spec.build()
     }

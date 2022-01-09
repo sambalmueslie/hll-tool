@@ -57,7 +57,7 @@ class ServerService(
 
     private fun runServerCycle(instance: ServerInstance) {
         val duration = measureTimeMillis { processors.forEach { it.runCycle(instance) } }
-        logger.debug("[${instance.id}] Run server cycle ${instance.name} within $duration ms.")
+        logger.trace("[${instance.id}] Run server cycle ${instance.name} within $duration ms.")
     }
 
     private val instances = mutableMapOf<Long, ServerInstance>()
