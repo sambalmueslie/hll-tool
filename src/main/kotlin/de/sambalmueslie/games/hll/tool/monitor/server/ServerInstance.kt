@@ -29,7 +29,7 @@ class ServerInstance(
         try {
             if (hllAPI.connect().get()) {
                 name = hllAPI.getServerName()
-                _mapsInRotation.addAll(hllAPI.getMapsInRotation())
+                _mapsInRotation.addAll(hllAPI.getMapsInRotation().filter { it.isNotBlank() })
                 logger.info("CONNECTION ESTABLISHED TO '$name'")
             }
         } catch (e: Exception) {

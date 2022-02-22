@@ -3,7 +3,37 @@ micronaut:
     name: HLL-Tool
   server:
     thread-selection: AUTO
+    cors:
+      enabled: true
+  executors:
+    scheduled:
+      type: scheduled
+      core-pool-size: 30
+  security:
+    authentication: bearer
+    enabled: true
+    ip-patterns: []
+    endpoints:
+      login:
+        enabled: false
+      oauth:
+        enabled: false
+    token:
+      enabled: true
+      roles-name: "roles"
+      jwt:
+        enabled: true
+        signatures:
+          jwks:
+            auth0:
+              url: "https://hlltool.eu.auth0.com//.well-known/jwks.json"
+  caches:
+    my-cache:
+      maximumSize: 20
 
+jackson:
+  bean-introspection-module: true
+  serialization-inclusion: always
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/postgres
@@ -21,8 +51,3 @@ flyway:
       default-schema: hll_tool
       create-schemas: true
       schemas: hll_tool
-
-kafka:
-  security.protocol: "SASL_SSL"
-  sasl:
-    mechanism: "PLAIN"

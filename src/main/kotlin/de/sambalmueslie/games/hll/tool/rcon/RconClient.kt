@@ -46,14 +46,14 @@ class RconClient(val config: RconClientConfig) {
     fun sendCommand(command: String): String {
         if (!isLoggedIn()) return ""
         commandFuture = CompletableFuture<String>()
-        logger.debug("Send command: [$command]")
+        logger.trace("Send command: [$command]")
         channel.writeAndFlush(command).sync()
         return commandFuture.get()
     }
 
 
     fun handleResponse(msg: String) {
-        logger.debug("Got a message: [$msg]")
+        logger.trace("Got a message: [$msg]")
         commandFuture.complete(msg)
     }
 
