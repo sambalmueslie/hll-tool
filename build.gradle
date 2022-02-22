@@ -49,7 +49,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
     implementation("io.micronaut:micronaut-validation")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.5")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5")
 //    implementation("io.micronaut.kafka:micronaut-kafka")
     //    implementation("io.micronaut.kafka:micronaut-kafka-streams")
