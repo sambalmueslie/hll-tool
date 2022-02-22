@@ -55,7 +55,7 @@ dependencies {
     //    implementation("io.micronaut.kafka:micronaut-kafka-streams")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation('com.discord4j:discord4j-core:3.2.1')
+    implementation('com.discord4j:discord4j-core:3.2.2')
 
     implementation("io.micronaut.security:micronaut-security")
     implementation("io.micronaut.security:micronaut-security-jwt")
