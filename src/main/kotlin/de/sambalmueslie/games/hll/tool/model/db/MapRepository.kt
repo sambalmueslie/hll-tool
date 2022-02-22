@@ -1,4 +1,4 @@
-package de.sambalmueslie.games.hll.tool.monitor.map.db
+package de.sambalmueslie.games.hll.tool.model.db
 
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jdbc.annotation.JdbcRepository
@@ -10,5 +10,4 @@ import io.micronaut.data.repository.PageableRepository
 interface MapRepository : PageableRepository<MapData, Long> {
     fun findFirst1ByServerIdOrderByTimestampDesc(serverId: Long): MapData?
     fun findFirst5ByServerIdOrderByTimestampDesc(serverId: Long): List<MapData>
-    fun findFirst1ByServerIdAndNameOrderByTimestampDesc(serverId: Long, name: String): MapData?
 }

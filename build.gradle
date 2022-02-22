@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt") version "1.6.10"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
     id("com.github.johnrengelman.shadow") version "7.1.0"
-    id("io.micronaut.application") version "3.1.0"
+    id("io.micronaut.application") version "3.2.0"
 }
 
 version = "0.1"
@@ -51,7 +51,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.5")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5")
-    implementation("io.micronaut.kafka:micronaut-kafka")
+//    implementation("io.micronaut.kafka:micronaut-kafka")
     //    implementation("io.micronaut.kafka:micronaut-kafka-streams")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
@@ -66,7 +66,7 @@ dependencies {
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.2"))
-    testImplementation('io.mockk:mockk:1.12.1')
+    testImplementation('io.mockk:mockk:1.12.2')
 
 }
 

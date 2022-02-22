@@ -51,7 +51,3 @@ flyway:
       default-schema: hll_tool
       create-schemas: true
       schemas: hll_tool
-
-kafka:
-  security.protocol: "SASL_SSL"
-  sasl.mechanism: "PLAIN"
