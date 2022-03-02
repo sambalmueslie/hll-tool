@@ -12,7 +12,7 @@ import {Community, CommunityChangeRequest} from "./community-api";
 export class CommunityService extends BaseService {
 
   constructor(http: HttpClient, logger: LoggingService) {
-    super(http, 'api/logic/community', logger)
+    super(http, 'logic/community', logger)
   }
 
   getCommunities(page: number = 0, size: number = 50): Observable<Page<Community>> {

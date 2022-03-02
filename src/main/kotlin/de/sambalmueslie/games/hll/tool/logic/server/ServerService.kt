@@ -61,32 +61,23 @@ class ServerService(
         update(request, result)
     }
 
-    private fun update(request: ServerChangeRequest, result: Server){
-        val existing = connectionRepository.findByServerId(result.id)
-        if (existing.isEmpty()) {
+    private fun update(request: ServerChangeRequest, result: Server) {
+        val existing = connectionRepository.findByIdOrNull(result.id)
+        if (existing == null) {
             val data = connectionRepository.save(ServerConnectionData.create(request.connection, result)).convert()
             connectionListeners.forEachWithTryCatch { it.created(data) }
         } else {
-            val data = existing.first()
-            data.update(request.connection)
-            val connection = connectionRepository.update(data).convert()
+            existing.update(request.connection)
+            val connection = connectionRepository.update(existing).convert()
             connectionListeners.forEachWithTryCatch { it.updated(connection) }
-
-            if (existing.size > 1) {
-                connectionRepository.deleteAll(existing.subList(1, existing.size))
-            }
-
         }
     }
 
     override fun handleDeleted(result: Server) {
-        val data = connectionRepository.findByServerId(result.id)
-        connectionRepository.deleteAll(data)
-        val connections = data.map { it.convert() }
-        connections.forEach { c ->
-            connectionListeners.forEachWithTryCatch { it.deleted(c) }
-        }
-
+        val data = connectionRepository.findByIdOrNull(result.id) ?: return
+        connectionRepository.delete(data)
+        val connection = data.convert()
+        connectionListeners.forEachWithTryCatch { it.deleted(connection) }
     }
 
 

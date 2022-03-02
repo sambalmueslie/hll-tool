@@ -9,6 +9,4 @@ import io.micronaut.data.repository.PageableRepository
 @JdbcRepository(dialect = Dialect.POSTGRES)
 interface ServerConnectionRepository : PageableRepository<ServerConnectionData, Long> {
 
-    fun findByServerId(serverId: Long): List<ServerConnectionData>
-    fun deleteByServerId(serverId: Long)
 }

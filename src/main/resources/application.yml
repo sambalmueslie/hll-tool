@@ -13,23 +13,23 @@ micronaut:
       type: scheduled
       core-pool-size: 30
   security:
-    authentication: bearer
     enabled: true
-    ip-patterns: []
     endpoints:
       login:
         enabled: false
       oauth:
         enabled: false
     token:
-      enabled: true
-      roles-name: "roles"
       jwt:
         enabled: true
         signatures:
           jwks:
             auth0:
               url: "https://hlltool.eu.auth0.com/.well-known/jwks.json"
+    intercept-url-map:
+      - pattern: /**
+        access:
+          - isAuthenticated()
   caches:
     my-cache:
       maximumSize: 20

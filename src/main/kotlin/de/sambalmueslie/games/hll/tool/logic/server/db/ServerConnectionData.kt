@@ -5,25 +5,25 @@ import de.sambalmueslie.games.hll.tool.logic.server.api.Server
 import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnection
 import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnectionChangeRequest
 import javax.persistence.Column
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
+import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
+@Entity(name = "ServerConnection")
+@Table(name = "server_connection")
 data class ServerConnectionData(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long,
+    @Id
+    override var id: Long = 0,
     @Column()
-    var serverId: Long,
+    override var host: String = "",
     @Column()
-    override var host: String,
+    override var port: Int = 0,
     @Column()
-    override var port: Int,
-    @Column()
-    override var password: String,
+    override var password: String = "",
 ) : DataObject<ServerConnection, ServerConnectionChangeRequest>, ServerConnection {
     companion object {
         fun create(request: ServerConnectionChangeRequest, server: Server): ServerConnectionData {
-            return ServerConnectionData(0, server.id, request.host, request.port, request.password)
+            return ServerConnectionData(server.id, request.host, request.port, request.password)
         }
     }
 

@@ -11,6 +11,7 @@ import {MAT_DATE_LOCALE} from "@angular/material/core";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AuthenticationModule} from "./auth/authentication.module";
+import {IdTokenHttpInterceptor} from "./auth/id-token-http.interceptor";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -41,8 +42,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       clientId: 'g3jgo0n5INYtc6hsnhbFEaDP9M8lpS5D',
       httpInterceptor: {
         allowedList: [
-          // Attach access tokens to any calls that start with '/api/'
           '/api/*',
+          {
+            uri: 'api/*',
+          }
         ]
       }
     }),
@@ -51,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: IdTokenHttpInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

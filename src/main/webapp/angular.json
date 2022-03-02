@@ -72,7 +72,8 @@
               "browserTarget": "hll-tool:build:production"
             },
             "development": {
-              "browserTarget": "hll-tool:build:development"
+              "browserTarget": "hll-tool:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
