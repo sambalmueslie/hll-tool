@@ -5,6 +5,9 @@ micronaut:
     thread-selection: AUTO
     cors:
       enabled: true
+    netty:
+      access-logger:
+        enabled: true
   executors:
     scheduled:
       type: scheduled
@@ -26,7 +29,7 @@ micronaut:
         signatures:
           jwks:
             auth0:
-              url: "https://hlltool.eu.auth0.com//.well-known/jwks.json"
+              url: "https://hlltool.eu.auth0.com/.well-known/jwks.json"
   caches:
     my-cache:
       maximumSize: 20

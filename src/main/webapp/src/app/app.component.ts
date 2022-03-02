@@ -25,8 +25,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   title = 'HLL Tool';
   items: NavMenuItem[] = [
     new NavMenuItem('/home', 'MENU.Home', 'home'),
-    new NavMenuItem('/event', 'MENU.Event', 'event_note'),
-    new NavMenuItem('/clan', 'MENU.Clan', 'question_answer'),
+    new NavMenuItem('/community', 'MENU.Community', 'groups'),
+    new NavMenuItem('/server', 'MENU.Server', 'dns'),
     new NavMenuItem('/admin', 'MENU.Admin', 'settings_applications'),
     new NavMenuItem('/imprint', 'MENU.Imprint', 'contact_support'),
   ];

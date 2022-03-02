@@ -6,4 +6,13 @@ import io.micronaut.http.annotation.Controller
 @Controller("api/logic/admin")
 class AdminController(private val service: AdminService) {
 
+    // create community
+
+
+
+    // add server
+
+
+
+
 }

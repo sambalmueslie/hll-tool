@@ -27,6 +27,6 @@
 }
 
 .active {
-  color: mat.get-color-from-palette($hll-dark-primary, default-contrast);
-  background-color: mat.get-color-from-palette($hll-dark-primary);
+  color: mat.get-color-from-palette($theme-primary, default-contrast);
+  background-color: mat.get-color-from-palette($theme-primary);
 }

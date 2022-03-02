@@ -1,7 +1,6 @@
 package de.sambalmueslie.games.hll.tool.game.db
 
 import de.sambalmueslie.games.hll.tool.common.DataObject
-import de.sambalmueslie.games.hll.tool.common.EmptyConvertContent
 import de.sambalmueslie.games.hll.tool.game.api.Translation
 import de.sambalmueslie.games.hll.tool.game.api.TranslationEntry
 import de.sambalmueslie.games.hll.tool.game.api.TranslationEntryChangeRequest
@@ -18,14 +17,14 @@ data class TranslationEntryData(
     var key: String,
     @Column(nullable = false)
     var value: String
-) : DataObject<TranslationEntry, TranslationEntryChangeRequest, EmptyConvertContent> {
+) : DataObject<TranslationEntry, TranslationEntryChangeRequest> {
 
     companion object {
         fun create(translation: Translation, request: TranslationEntryChangeRequest) =
             TranslationEntryData(0, translation.id, request.key, request.value)
     }
 
-    override fun convert(content: EmptyConvertContent) = TranslationEntry(id, key, value)
+    override fun convert() = TranslationEntry(id, key, value)
 
     override fun update(request: TranslationEntryChangeRequest) {
         key = request.key

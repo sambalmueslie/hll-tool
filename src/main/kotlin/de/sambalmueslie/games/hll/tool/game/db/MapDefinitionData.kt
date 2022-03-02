@@ -1,7 +1,6 @@
 package de.sambalmueslie.games.hll.tool.game.db
 
 import de.sambalmueslie.games.hll.tool.common.DataObject
-import de.sambalmueslie.games.hll.tool.common.EmptyConvertContent
 import de.sambalmueslie.games.hll.tool.game.api.MapDefinition
 import de.sambalmueslie.games.hll.tool.game.api.MapDefinitionChangeRequest
 import de.sambalmueslie.games.hll.tool.game.api.MapType
@@ -22,14 +21,14 @@ data class MapDefinitionData(
     var attackerId: Long,
     @Column(nullable = false)
     var defenderId: Long,
-) : DataObject<MapDefinition, MapDefinitionChangeRequest, EmptyConvertContent> {
+) : DataObject<MapDefinition, MapDefinitionChangeRequest> {
 
     companion object {
         fun create(attacker: NationDefinition, defender: NationDefinition, request: MapDefinitionChangeRequest) =
             MapDefinitionData(0, request.key, request.type, attacker.id, defender.id)
     }
 
-    override fun convert(content: EmptyConvertContent) = MapDefinition(id, key, type, attackerId, defenderId)
+    override fun convert() = MapDefinition(id, key, type, attackerId, defenderId)
 
     override fun update(request: MapDefinitionChangeRequest) {
         key = request.key

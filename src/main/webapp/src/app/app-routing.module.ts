@@ -5,10 +5,9 @@ import {AuthGuard} from "@auth0/auth0-angular";
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
-  // {path: 'event', loadChildren: () => import('./event/event.module').then(m => m.EventModule), canActivate: [AuthGuard]},
-  // {path: 'clan', loadChildren: () => import('./clan/clan.module').then(m => m.ClanModule), canActivate: [AuthGuard]},
+  {path: 'community', loadChildren: () => import('./community/community.module').then(m => m.CommunityModule), canActivate: [AuthGuard]},
+  {path: 'server', loadChildren: () => import('./server/server.module').then(m => m.ServerModule), canActivate: [AuthGuard]},
   {path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard]},
-  // {path: 'imprint', loadChildren: () => import('./imprint/imprint.module').then(m => m.ImprintModule)},
   {path: '**', loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)}
 ];
 

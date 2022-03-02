@@ -2,6 +2,7 @@ package de.sambalmueslie.games.hll.tool.util
 
 
 import io.micronaut.data.repository.CrudRepository
+import io.micronaut.data.repository.PageableRepository
 
 inline fun <T> Iterable<T>.forEachWithTryCatch(action: (T) -> Unit) {
     try {
@@ -25,3 +26,4 @@ inline fun <T> executeWithReturn(result: T? = null, function: () -> Any): T? {
 
 
 fun <E, ID : Any> CrudRepository<E, ID>.findByIdOrNull(id: ID): E? = this.findById(id).orElseGet { null }
+fun <E, ID : Any> PageableRepository<E, ID>.findByIdOrNull(id: ID): E? = this.findById(id).orElseGet { null }
