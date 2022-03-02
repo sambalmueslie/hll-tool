@@ -1,0 +1,10 @@
+<a mat-list-item (click)="logout()">
+  <ng-container *ngIf="collapsed; then thenNavBlock else elseNavBlock"></ng-container>
+  <ng-template #thenNavBlock>
+    <mat-icon class="menu-item-icon-collapsed" fxFlex="0 1 30px">logout</mat-icon>
+  </ng-template>
+  <ng-template #elseNavBlock>
+    <mat-icon fxFlex="0 1 30px">logout</mat-icon>
+    <span fxFlex="1 1 auto">{{'MENU.Logout' | translate}}</span>
+  </ng-template>
+</a>

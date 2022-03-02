@@ -1,0 +1,6 @@
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOutBlock">
+  <app-logout-button [collapsed]="collapsed"></app-logout-button>
+</ng-container>
+<ng-template #loggedOutBlock>
+  <app-login-button [collapsed]="collapsed"></app-login-button>
+</ng-template>
