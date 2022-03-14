@@ -1,0 +1,10 @@
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center stretch" class="base-container">
+  <div fxLayout="row wrap" fxLayoutGap="20px grid" fxLayoutAlign="start stretch">
+    <ng-container *ngIf="data">
+      <app-server-card [data]="c" *ngFor="let c of data.content" fxFlex="0 1 calc(180px)" class="tile"></app-server-card>
+    </ng-container>
+    <app-server-create-card fxFlex="0 1 calc(180px)" class="tile"></app-server-create-card>
+  </div>
+
+</div>

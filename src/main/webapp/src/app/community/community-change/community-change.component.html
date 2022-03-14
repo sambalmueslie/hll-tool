@@ -1,0 +1,28 @@
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center stretch" class="base-container">
+  <mat-card fxFlex="1 1 auto">
+    <mat-card-header>
+      <mat-card-title>{{getHeaderText()}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="communityForm" (submit)="submit()">
+        <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center stretch">
+          <mat-form-field appearance="outline" fxFlex="1 1 auto">
+            <mat-label>{{'COMMUNITY.CREATE.Form.Name.Label' | translate}}</mat-label>
+            <input matInput formControlName="name">
+            <mat-hint>{{'COMMUNITY.CREATE.Form.Name.Hint' | translate}}</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="1 1 auto">
+            <mat-label>{{'COMMUNITY.CREATE.Form.Description.Label' | translate}}</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+            <mat-hint>{{'COMMUNITY.CREATE.Form.Description.Hint' | translate}}</mat-hint>
+          </mat-form-field>
+          <div>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!communityForm.valid">{{'COMMON.ACTION.Submit' |translate}}</button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
