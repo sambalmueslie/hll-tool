@@ -54,3 +54,4 @@ flyway:
       default-schema: hll_tool
       create-schemas: true
       schemas: hll_tool
+      clean-schema: true

@@ -5,8 +5,9 @@
 CREATE SEQUENCE community_seq;
 CREATE TABLE community
 (
-    id   BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('community_seq'::regclass),
-    name VARCHAR(255) NOT NULL UNIQUE
+    id          BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('community_seq'::regclass),
+    name        VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT         NOT NULL
 );
 
 /*************************************************************

@@ -1,13 +1,3 @@
-CREATE SEQUENCE server_seq;
-CREATE TABLE server
-(
-    id       BIGINT       NOT NULL PRIMARY KEY DEFAULT nextval('server_seq'::regclass),
-    name     VARCHAR(255) NOT NULL,
-    host     VARCHAR(255) NOT NULL UNIQUE,
-    port     INT          NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE server_settings
 (
     id                    BIGINT  NOT NULL PRIMARY KEY,

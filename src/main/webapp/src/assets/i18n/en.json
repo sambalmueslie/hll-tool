@@ -1,0 +1,58 @@
+{
+  "COMMON": {
+    "ACTION": {
+      "Submit": "Submit"
+    }
+  },
+  "MENU": {
+    "Home": "Home",
+    "Community": "Community",
+    "Server": "Server",
+    "Admin": "Admin",
+    "Imprint": "Imprint",
+    "Logout": "Logout",
+    "Login": "Login"
+  },
+  "COMMUNITY": {
+    "CREATE": {
+      "Button": "Create Community",
+      "Form": {
+        "Name": {
+          "Label": "Community Name",
+          "Hint": "The name of the community"
+        },
+        "Description": {
+          "Label": "Community Description",
+          "Hint": "The description of the community"
+        }
+      }
+    }
+  },
+  "SERVER": {
+    "CREATE": {
+      "Button": "Create Server",
+      "Form": {
+        "Name": {
+          "Label": "Server Name",
+          "Hint": "The name of the server"
+        },
+        "Description": {
+          "Label": "Server Description",
+          "Hint": "The description of the server"
+        },
+        "Host": {
+          "Label": "Server Host",
+          "Hint": "The host of the server"
+        },
+        "Port": {
+          "Label": "Server Port",
+          "Hint": "The port of the server"
+        },
+        "Password": {
+          "Label": "Server Password",
+          "Hint": "The password of the server"
+        }
+      }
+    }
+  }
+}

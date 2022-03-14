@@ -2,10 +2,8 @@ package de.sambalmueslie.games.hll.tool.logic.server
 
 
 import de.sambalmueslie.games.hll.tool.common.BaseAuthCrudService
-import de.sambalmueslie.games.hll.tool.logic.server.api.Server
-import de.sambalmueslie.games.hll.tool.logic.server.api.ServerChangeListener
-import de.sambalmueslie.games.hll.tool.logic.server.api.ServerChangeRequest
-import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnectionChangeListener
+import de.sambalmueslie.games.hll.tool.common.CrudService
+import de.sambalmueslie.games.hll.tool.logic.server.api.*
 import de.sambalmueslie.games.hll.tool.logic.server.db.ServerConnectionData
 import de.sambalmueslie.games.hll.tool.logic.server.db.ServerConnectionRepository
 import de.sambalmueslie.games.hll.tool.logic.server.db.ServerData
@@ -25,7 +23,7 @@ class ServerService(
     listeners: Set<ServerChangeListener>,
     private val connectionRepository: ServerConnectionRepository,
     private val connectionListeners: Set<ServerConnectionChangeListener>
-) : BaseAuthCrudService<Server, ServerChangeRequest, ServerData>(listeners, repository, logger) {
+) : BaseAuthCrudService<Server, ServerChangeRequest, ServerData>(listeners, repository, logger), CrudService<Server, ServerChangeRequest, ServerData> {
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ServerService::class.java)
@@ -33,15 +31,24 @@ class ServerService(
 
     override fun getAll(auth: Authentication, pageable: Pageable): Page<Server> {
         // TODO check auth
+        return getAll(pageable)
+    }
+
+    override fun getAll(pageable: Pageable): Page<Server> {
         return repository.findAll(pageable).map { it.convert() }
     }
 
+
     override fun get(auth: Authentication, objId: Long): Server? {
         // TODO check auth
+        return get(objId)
+    }
+
+    override fun get(objId: Long): Server? {
         return repository.findByIdOrNull(objId)
     }
 
-    override fun create(request: ServerChangeRequest): ServerData {
+    override fun convert(request: ServerChangeRequest): ServerData {
         return ServerData.create(request)
     }
 
@@ -80,5 +87,7 @@ class ServerService(
         connectionListeners.forEachWithTryCatch { it.deleted(connection) }
     }
 
-
+    fun getConnection(obj: Server): ServerConnection? {
+        return connectionRepository.findByIdOrNull(obj.id)?.convert()
+    }
 }

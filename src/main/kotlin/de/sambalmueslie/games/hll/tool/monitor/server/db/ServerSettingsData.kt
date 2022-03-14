@@ -17,8 +17,4 @@ data class ServerSettingsData(
     var slotTrackingEnabled: Boolean = false,
     @Column(nullable = false)
     var logTrackingEnabled: Boolean = false
-) {
-    companion object {
-        fun convert(data: ServerData, request: ServerSettingsChangeRequest) = ServerSettingsData(data.id, request.mapTrackingEnabled, request.slotTrackingEnabled, request.logTrackingEnabled)
-    }
-}
+)

@@ -1,0 +1,49 @@
+{
+  "COMMON": {
+    "ACTION": {
+      "Submit": "Speichern"
+    }
+  },
+  "COMMUNITY": {
+    "CREATE": {
+      "Button": "Eine neue Gesellschaft erstellen",
+      "Form": {
+        "Name": {
+          "Label": "Name",
+          "Hint": "Der Name der Gesellschaft"
+        },
+        "Description": {
+          "Label": "Beschreibung",
+          "Hint": "Beschreibung der Gesellschaft"
+        }
+      }
+    }
+  },
+  "SERVER": {
+    "CREATE": {
+      "Button": "Server erstellen",
+      "Form": {
+        "Name": {
+          "Label": "Name",
+          "Hint": "Der Name des Servers"
+        },
+        "Description": {
+          "Label": "Beschreibung",
+          "Hint": "Beschreibung des Servers"
+        },
+        "Host": {
+          "Label": "Server Host",
+          "Hint": "IP Addresse des Servers"
+        },
+        "Port": {
+          "Label": "Server Port",
+          "Hint": "IP Port des Servers"
+        },
+        "Password": {
+          "Label": "Server Password",
+          "Hint": "Passwort des Servers"
+        }
+      }
+    }
+  }
+}

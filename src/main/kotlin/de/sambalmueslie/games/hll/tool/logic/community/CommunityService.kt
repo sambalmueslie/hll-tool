@@ -35,7 +35,7 @@ class CommunityService(
         return repository.findByIdOrNull(objId)
     }
 
-    override fun create(request: CommunityChangeRequest): CommunityData {
+    override fun convert(request: CommunityChangeRequest): CommunityData {
         return CommunityData.create(request)
     }
 

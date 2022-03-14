@@ -1,8 +1,8 @@
 package de.sambalmueslie.games.hll.tool.monitor.server
 
 
-import de.sambalmueslie.games.hll.tool.monitor.server.api.Server
-import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerData
+import de.sambalmueslie.games.hll.tool.logic.server.api.Server
+import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnection
 import de.sambalmueslie.games.hll.tool.monitor.server.db.ServerSettingsData
 import de.sambalmueslie.games.hll.tool.rcon.HllAPI
 import de.sambalmueslie.games.hll.tool.rcon.RconClientConfig
@@ -10,20 +10,21 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class ServerInstance(
-    private val data: ServerData,
+    private val data: Server,
+    private val connection: ServerConnection,
     private val settings: ServerSettingsData
-) : Server {
+) {
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ServerInstance::class.java)
     }
 
-    private val hllAPI = HllAPI(RconClientConfig(data.host, data.port, data.password))
-    override var name: String = "Unknown"
+    private val hllAPI = HllAPI(RconClientConfig(connection.host, connection.port, connection.password))
+    var name: String = "Unknown"
         private set
 
     private val _mapsInRotation = mutableSetOf<String>()
-    override val mapsInRotation: Set<String> = _mapsInRotation
+    val mapsInRotation: Set<String> = _mapsInRotation
 
     init {
         try {
@@ -37,9 +38,9 @@ class ServerInstance(
         }
     }
 
-    override val id: Long = data.id
-    override fun getMap() = hllAPI.getMap()
-    override fun getSlots() = hllAPI.getSlots()
+    val id: Long = data.id
+    fun getMap() = hllAPI.getMap()
+    fun getSlots() = hllAPI.getSlots()
 
     fun isEnabled(): Boolean {
         return settings.mapTrackingEnabled || settings.slotTrackingEnabled

@@ -11,12 +11,14 @@ data class CommunityData(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     override val id: Long,
     @Column()
-    override var name: String
+    override var name: String,
+    @Column()
+    override var description: String
 ) : DataObject<Community, CommunityChangeRequest>, Community {
 
     companion object {
         fun create(request: CommunityChangeRequest): CommunityData {
-            return CommunityData(0, request.name)
+            return CommunityData(0, request.name, request.description)
         }
     }
 
@@ -24,5 +26,6 @@ data class CommunityData(
 
     override fun update(request: CommunityChangeRequest) {
         this.name = request.name
+        this.description = request.description
     }
 }
