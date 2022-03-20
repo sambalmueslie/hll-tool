@@ -1,0 +1,13 @@
+package de.sambalmueslie.games.hll.tool.logic.server.monitor.map.db
+
+import de.sambalmueslie.games.hll.tool.model.db.MapData
+import io.micronaut.data.annotation.Repository
+import io.micronaut.data.jdbc.annotation.JdbcRepository
+import io.micronaut.data.model.query.builder.sql.Dialect
+import io.micronaut.data.repository.PageableRepository
+
+@Repository
+@JdbcRepository(dialect = Dialect.POSTGRES)
+interface ServerMapRepository : PageableRepository<ServerMapData, Long> {
+    fun findFirst1ByServerIdOrderByTimestampDesc(serverId: Long): ServerMapData?
+}
