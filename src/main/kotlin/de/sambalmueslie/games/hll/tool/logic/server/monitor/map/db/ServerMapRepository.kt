@@ -1,6 +1,5 @@
 package de.sambalmueslie.games.hll.tool.logic.server.monitor.map.db
 
-import de.sambalmueslie.games.hll.tool.model.db.MapData
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jdbc.annotation.JdbcRepository
 import io.micronaut.data.model.query.builder.sql.Dialect
