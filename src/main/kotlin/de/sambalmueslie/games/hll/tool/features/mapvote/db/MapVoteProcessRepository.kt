@@ -7,5 +7,4 @@ import io.micronaut.data.repository.PageableRepository
 
 @Repository
 @JdbcRepository(dialect = Dialect.POSTGRES)
-interface MapVoteProcessRepository : PageableRepository<MapVoteProcessData, Long> {
-}
+interface MapVoteProcessRepository : PageableRepository<MapVoteProcessData, Long>

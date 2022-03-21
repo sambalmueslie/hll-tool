@@ -19,6 +19,4 @@ data class MapVoteServerSettingsData(
     var guildId: Long,
     @Column(nullable = false)
     var mapVoteAmount: Int = 8
-) {
-
-}
+)

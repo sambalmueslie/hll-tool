@@ -2,13 +2,7 @@ package de.sambalmueslie.games.hll.tool.features.mapvote.discord
 
 
 import de.sambalmueslie.games.hll.tool.config.MapVoteConfig
-import discord4j.common.util.Snowflake
-import discord4j.core.DiscordClientBuilder
-import discord4j.core.GatewayDiscordClient
-import discord4j.core.`object`.entity.Message
-import discord4j.core.`object`.entity.channel.GuildMessageChannel
 import discord4j.core.event.domain.message.*
-import discord4j.core.spec.MessageCreateSpec
 import io.micronaut.context.annotation.Context
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

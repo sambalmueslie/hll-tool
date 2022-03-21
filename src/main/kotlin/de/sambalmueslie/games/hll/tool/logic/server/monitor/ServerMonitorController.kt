@@ -4,6 +4,4 @@ import io.micronaut.http.annotation.Controller
 
 
 @Controller("api/logic/server/monitor")
-class ServerMonitorController(private val service: ServerMonitorService) {
-
-}
+class ServerMonitorController(private val service: ServerMonitorService)

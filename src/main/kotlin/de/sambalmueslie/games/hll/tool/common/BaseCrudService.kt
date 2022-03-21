@@ -50,9 +50,17 @@ abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeReque
         return result
     }
 
-    protected open fun handleCreated(request: O, result: T) {}
-    protected open fun handleUpdated(request: O, result: T) {}
-    protected open fun handleDeleted(result: T) {}
+    protected open fun handleCreated(request: O, result: T) {
+        // intentionally left empty
+    }
+
+    protected open fun handleUpdated(request: O, result: T) {
+        // intentionally left empty
+    }
+
+    protected open fun handleDeleted(result: T) {
+        // intentionally left empty
+    }
 
     protected abstract fun convert(request: O): D?
 
