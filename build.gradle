@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt") version "1.6.10"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.3.0"
+    id("io.micronaut.application") version "3.3.1"
     id "org.sonarqube" version "3.3"
 }
 
@@ -50,10 +50,8 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
     implementation("io.micronaut:micronaut-validation")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.5")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5")
-//    implementation("io.micronaut.kafka:micronaut-kafka")
-    //    implementation("io.micronaut.kafka:micronaut-kafka-streams")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation('com.discord4j:discord4j-core:3.2.2')

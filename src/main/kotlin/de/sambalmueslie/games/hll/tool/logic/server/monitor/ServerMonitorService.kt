@@ -7,6 +7,7 @@ import de.sambalmueslie.games.hll.tool.logic.server.api.Server
 import de.sambalmueslie.games.hll.tool.logic.server.monitor.api.ServerMonitoringProcessor
 import de.sambalmueslie.games.hll.tool.logic.server.monitor.db.ServerMonitorSettingsData
 import de.sambalmueslie.games.hll.tool.logic.server.monitor.db.ServerMonitorSettingsRepository
+import de.sambalmueslie.games.hll.tool.rcon.api.HellLetLooseClientFactory
 import de.sambalmueslie.games.hll.tool.util.findByIdOrNull
 import de.sambalmueslie.games.hll.tool.util.forEachWithTryCatch
 import io.micronaut.context.event.ApplicationEventListener
@@ -25,7 +26,8 @@ class ServerMonitorService(
     private val serverService: ServerService,
     private val repository: ServerMonitorSettingsRepository,
     private val processors: Set<ServerMonitoringProcessor>,
-    @param:Named(TaskExecutors.SCHEDULED) private val taskScheduler: TaskScheduler
+    @param:Named(TaskExecutors.SCHEDULED) private val taskScheduler: TaskScheduler,
+    private val clientFactory: HellLetLooseClientFactory,
 ) : ApplicationEventListener<ServerStartupEvent> {
 
     companion object {
@@ -76,7 +78,7 @@ class ServerMonitorService(
             logger.error("Cannot find server settings for ${server.name}")
             return
         }
-        val client = ServerClient(server, connection, settings)
+        val client = ServerClient(server, connection, settings, clientFactory)
 
         // TODO update name on server
 //        val name = instance.name

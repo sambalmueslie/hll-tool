@@ -1,13 +1,14 @@
 package de.sambalmueslie.games.hll.tool.rcon
 
 
+import de.sambalmueslie.games.hll.tool.rcon.api.HellLetLooseClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class HellLetLooseServerClient(config: RconClientConfig) {
+class HellLetLooseServerClient(config: RconClientConfig) : HellLetLooseClient {
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(HellLetLooseServerClient::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(HellLetLooseServerClient::class.java)
 
         val maps = setOf(
             "foy_warfare",
@@ -48,11 +49,11 @@ class HellLetLooseServerClient(config: RconClientConfig) {
 
     private val client = RconClient(config)
 
-    fun connect() = client.connect()
-    fun getServerName() = client.sendCommand("get name")
-    fun getMap() = client.sendCommand("get map")
-    fun getSlots() = client.sendCommand("get slots").let { Slots.parse(it) }
-    fun getMapsInRotation() = client.sendCommand("rotlist").split("\n")
-    fun disconnect() = client.disconnect()
+    override fun connect() = client.connect()
+    override fun getServerName() = client.sendCommand("get name")
+    override fun getMap() = client.sendCommand("get map")
+    override fun getSlots() = client.sendCommand("get slots").let { Slots.parse(it) }
+    override fun getMapsInRotation() = client.sendCommand("rotlist").split("\n")
+    override fun disconnect() = client.disconnect()
 
 }

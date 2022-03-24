@@ -1,0 +1,16 @@
+micronaut:
+  security:
+    enabled: false
+
+datasources:
+  default:
+    url: jdbc:tc:postgresql:12:///postgres
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+    schema-generate: NONE
+    dialect: POSTGRES
+    schema: hll_tool
+
+app:
+  map:
+    vote:
+      token: "token"

@@ -4,22 +4,23 @@ package de.sambalmueslie.games.hll.tool.logic.server.monitor
 import de.sambalmueslie.games.hll.tool.logic.server.api.Server
 import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnection
 import de.sambalmueslie.games.hll.tool.logic.server.monitor.api.ServerMonitorSettings
-import de.sambalmueslie.games.hll.tool.rcon.HellLetLooseServerClient
 import de.sambalmueslie.games.hll.tool.rcon.RconClientConfig
+import de.sambalmueslie.games.hll.tool.rcon.api.HellLetLooseClientFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class ServerClient(
     server: Server,
     connection: ServerConnection,
-    private val settings: ServerMonitorSettings
+    private val settings: ServerMonitorSettings,
+    clientFactory: HellLetLooseClientFactory
 ) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(ServerClient::class.java)
     }
 
-    private val hllClient = HellLetLooseServerClient(RconClientConfig(connection.host, connection.port, connection.password))
+    private val hllClient = clientFactory.create(RconClientConfig(connection.host, connection.port, connection.password))
 
     var name: String = "Unknown"
         private set
