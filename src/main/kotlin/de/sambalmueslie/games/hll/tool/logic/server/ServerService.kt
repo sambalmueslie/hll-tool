@@ -90,4 +90,5 @@ class ServerService(
     fun getConnection(obj: Server): ServerConnection? {
         return connectionRepository.findByIdOrNull(obj.id)?.convert()
     }
+
 }

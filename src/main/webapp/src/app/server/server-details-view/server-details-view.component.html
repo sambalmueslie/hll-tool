@@ -1,0 +1,17 @@
+<mat-progress-bar mode="indeterminate" *ngIf="reloading"></mat-progress-bar>
+<div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center stretch" class="base-container">
+  <mat-card *ngIf="info">
+    <mat-card-header>
+      <mat-card-title>{{info.name}}</mat-card-title>
+      <mat-card-subtitle>{{info.map}} - {{info.slots.active}}/{{info.slots.available}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <nav mat-tab-nav-bar>
+        <a mat-tab-link routerLink="map" (click)="activeLink = 'MapRotation'" [active]="activeLink == 'MapRotation'">{{'SERVER.DETAILS.MapRotation' | translate}}</a>
+        <a mat-tab-link routerLink="player" (click)="activeLink = 'PlayerList'" [active]="activeLink == 'PlayerList'">{{'SERVER.DETAILS.PlayerList' | translate}}</a>
+        <a mat-tab-link routerLink="admin" (click)="activeLink = 'AdminLog'" [active]="activeLink == 'AdminLog'">{{'SERVER.DETAILS.AdminLog' | translate}}</a>
+      </nav>
+      <router-outlet></router-outlet>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -37,6 +37,8 @@ class ServerMonitorService(
 
     private val clients = mutableMapOf<Long, ServerClient>()
 
+    fun getClient(server: Server) = clients[server.id]
+
     override fun onApplicationEvent(event: ServerStartupEvent) {
         serverService.getAll().forEachWithTryCatch { setupServer(it) }
         serverService.register(object : BusinessObjectChangeListener<Server> {
@@ -56,13 +58,21 @@ class ServerMonitorService(
         })
 
         taskScheduler.scheduleWithFixedDelay(null, DELAY) {
-            clients.values.forEachWithTryCatch { runServerCycle(it) }
+            clients.values.forEach { runServerCycle(it) }
 
         }
     }
 
     private fun runServerCycle(client: ServerClient) {
-        val duration = measureTimeMillis { processors.forEach { it.runCycle(client) } }
+        val duration = measureTimeMillis {
+            processors.forEach {
+                try {
+                    it.runCycle(client)
+                } catch (e: Exception) {
+                    logger.error("Exception while run cycle on processor $it", e)
+                }
+            }
+        }
         logger.trace("[${client.id}] Run server cycle ${client.name} within $duration ms.")
     }
 

@@ -1,4 +1,5 @@
 export interface Server {
+  id: number,
   name: string
   description: string
 }
@@ -20,3 +21,4 @@ export class ServerConnectionChangeRequest {
   ) {
   }
 }
+

@@ -26,4 +26,5 @@ class ServerController(private val service: ServerService) : CrudAPI<Server, Ser
     @Delete("{objId}")
     override fun delete(authentication: Authentication, objId: Long) = service.delete(authentication, objId)
 
+
 }

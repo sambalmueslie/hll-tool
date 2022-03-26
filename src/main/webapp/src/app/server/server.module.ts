@@ -10,6 +10,10 @@ import {FlexModule} from "@angular/flex-layout";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import { ServerChangeComponent } from './server-change/server-change.component';
+import { ServerDetailsViewComponent } from './server-details-view/server-details-view.component';
+import { ServerDetailsMapRotationComponent } from './server-details-map-rotation/server-details-map-rotation.component';
+import { ServerDetailsPlayerListComponent } from './server-details-player-list/server-details-player-list.component';
+import { ServerDetailsAdminLogComponent } from './server-details-admin-log/server-details-admin-log.component';
 
 
 @NgModule({
@@ -17,7 +21,11 @@ import { ServerChangeComponent } from './server-change/server-change.component';
     ServerBoardComponent,
     ServerCardComponent,
     ServerCreateCardComponent,
-    ServerChangeComponent
+    ServerChangeComponent,
+    ServerDetailsViewComponent,
+    ServerDetailsMapRotationComponent,
+    ServerDetailsPlayerListComponent,
+    ServerDetailsAdminLogComponent
   ],
   imports: [
     CommonModule,

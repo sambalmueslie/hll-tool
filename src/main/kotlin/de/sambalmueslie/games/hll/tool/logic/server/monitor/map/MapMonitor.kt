@@ -20,7 +20,7 @@ import java.time.Duration
 class MapMonitor(
     private val repository: ServerMapRepository,
     private val statsRepository: ServerMapStatsEntryRepository,
-    private val listener: Set<ServerMapChangeListener>
+    private val listeners: MutableSet<ServerMapChangeListener>
 ) : ServerMonitoringProcessor {
 
     companion object {
@@ -36,6 +36,14 @@ class MapMonitor(
 
 
     fun getCurrentMap(serverId: Long) = currentMapCache[serverId]
+
+    fun register(listener: ServerMapChangeListener){
+        listeners.add(listener)
+    }
+
+    fun unregister(listener: ServerMapChangeListener){
+        listeners.remove(listener)
+    }
 
     private var cycleCount = 0
     override fun runCycle(client: ServerClient) {
@@ -62,7 +70,7 @@ class MapMonitor(
         val data = repository.save(ServerMapData(0, name, client.id))
 
         updateStats(client, current, data)
-        listener.forEachWithTryCatch { it.handleMapChanged(client, data) }
+        listeners.forEachWithTryCatch { it.handleMapChanged(client, data) }
     }
 
     private fun updateStats(client: ServerClient, last: ServerMapData?, data: ServerMapData) {

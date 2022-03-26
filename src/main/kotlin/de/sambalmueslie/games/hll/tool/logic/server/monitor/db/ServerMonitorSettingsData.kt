@@ -10,7 +10,7 @@ import javax.persistence.Table
 @Table(name = "server_monitor_settings")
 data class ServerMonitorSettingsData(
     @Id
-    var id: Long = 0,
+    val serverId: Long,
     @Column(nullable = false)
     override var mapTrackingEnabled: Boolean = false,
     @Column(nullable = false)

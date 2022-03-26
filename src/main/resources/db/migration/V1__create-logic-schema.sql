@@ -35,19 +35,16 @@ CREATE TABLE server_connection
 
 CREATE TABLE server_monitor_settings
 (
-    id                      BIGINT,
+    server_id               BIGINT,
     map_tracking_enabled    BOOLEAN NOT NULL,
     slot_tracking_enabled   BOOLEAN NOT NULL,
     log_tracking_enabled    BOOLEAN NOT NULL,
     player_tracking_enabled BOOLEAN NOT NULL,
 
-    CONSTRAINT fk_server_monitor_settings_server FOREIGN KEY (id)
+    CONSTRAINT fk_server_monitor_settings_server FOREIGN KEY (server_id)
         REFERENCES server (id) MATCH SIMPLE
 );
 
-/*************************************************************
-  MONITORING
- *************************************************************/
 
 CREATE SEQUENCE server_map_seq;
 CREATE TABLE server_map
@@ -89,4 +86,20 @@ CREATE TABLE server_slot_stats
         REFERENCES server (id) MATCH SIMPLE,
     CONSTRAINT fk_server_slot_stats_server_map FOREIGN KEY (map_id)
         REFERENCES server_map (id) MATCH SIMPLE
+);
+
+/*************************************************************
+  INFO
+ *************************************************************/
+
+CREATE TABLE server_info
+(
+    server_id       BIGINT,
+    name            VARCHAR(100) NOT NULL,
+    map             VARCHAR(100) NOT NULL,
+    slots_active    INT          NOT NULL,
+    slots_available INT          NOT NULL,
+
+    CONSTRAINT fk_server_info_server FOREIGN KEY (server_id)
+        REFERENCES server (id) MATCH SIMPLE
 );
