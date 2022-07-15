@@ -28,6 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     new NavMenuItem('/community', 'MENU.Community', 'groups'),
     new NavMenuItem('/server', 'MENU.Server', 'dns'),
     new NavMenuItem('/admin', 'MENU.Admin', 'settings_applications'),
+    new NavMenuItem('/game', 'MENU.Game', 'admin_panel_settings'),
     new NavMenuItem('/imprint', 'MENU.Imprint', 'contact_support'),
   ];
 

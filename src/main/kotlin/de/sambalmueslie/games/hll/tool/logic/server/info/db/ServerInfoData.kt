@@ -3,18 +3,18 @@ package de.sambalmueslie.games.hll.tool.logic.server.info.db
 import de.sambalmueslie.games.hll.tool.logic.server.api.Server
 import de.sambalmueslie.games.hll.tool.logic.server.info.api.ServerInfo
 import de.sambalmueslie.games.hll.tool.rcon.Slots
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 
 @Entity(name = "ServerInfo")
 @Table(name = "server_info")
 data class ServerInfoData(
     @Id
-    val serverId: Long,
+    val serverId: Long = 0,
     @Column()
-    val name: String,
+    val name: String = "",
     @Column()
     var map: String = "",
     @Column()

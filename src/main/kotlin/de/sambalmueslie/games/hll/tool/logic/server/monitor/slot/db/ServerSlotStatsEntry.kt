@@ -2,7 +2,7 @@ package de.sambalmueslie.games.hll.tool.logic.server.monitor.slot.db
 
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "ServerSlotStatsEntry")
 @Table(name = "server_slot_stats")

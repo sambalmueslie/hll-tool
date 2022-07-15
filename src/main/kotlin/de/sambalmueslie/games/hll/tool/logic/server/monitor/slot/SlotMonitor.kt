@@ -37,23 +37,25 @@ class SlotMonitor(
         listeners.remove(listener)
     }
 
-    private var currentSlots = mutableMapOf<Long, Slots>()
 
     private val currentSlotCache: LoadingCache<Long, ServerSlotStatsEntry> = Caffeine.newBuilder()
         .maximumSize(1000)
         .expireAfterAccess(Duration.ofMinutes(10))
-        .build { serverId -> statsRepository.findFirst1ByServerIdOrderByTimestampDesc(serverId) }
+        .build { serverId -> getCurrentStatsEntry(serverId) }
 
     override fun runCycle(client: ServerClient) {
         if (!client.isSlotTrackingEnabled()) return
 
         val slots = client.getSlots()
-        val current = currentSlotCache[client.id]
+        val current = getCurrentStatsEntry(client.id)
         val map = mapMonitor.getCurrentMap(client.id) ?: return
         if (!hasChanged(current, slots, map)) return
+
         listeners.forEachWithTryCatch { it.handleSlotsChanged(client, slots) }
-        handleSlotsChange(client, slots, map)
+        handleSlotsChange(client, slots, current, map)
     }
+
+    private fun getCurrentStatsEntry(serverId: Long) = statsRepository.findFirst1ByServerIdOrderByTimestampDesc(serverId)
 
     private fun hasChanged(current: ServerSlotStatsEntry?, slots: Slots, map: ServerMapData): Boolean {
         if (current == null) return true
@@ -62,10 +64,9 @@ class SlotMonitor(
         return false
     }
 
-    private fun handleSlotsChange(client: ServerClient, slots: Slots, map: ServerMapData) {
+    private fun handleSlotsChange(client: ServerClient, slots: Slots, current: ServerSlotStatsEntry?, map: ServerMapData) {
         if (!slots.isValid() || slots.active <= 0) return
-        logger.info("Handle slot change from ${currentSlots[client.id]} -> $slots")
-        currentSlots[client.id] = slots
+        logger.info("Handle slot change from $current -> $slots")
         statsRepository.save(ServerSlotStatsEntry(0, slots.active, slots.available, client.id, map.id))
     }
 

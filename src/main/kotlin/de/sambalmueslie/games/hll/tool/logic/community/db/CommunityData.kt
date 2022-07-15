@@ -3,17 +3,17 @@ package de.sambalmueslie.games.hll.tool.logic.community.db
 import de.sambalmueslie.games.hll.tool.common.DataObject
 import de.sambalmueslie.games.hll.tool.logic.community.api.Community
 import de.sambalmueslie.games.hll.tool.logic.community.api.CommunityChangeRequest
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "Community")
 @Table(name = "community")
 data class CommunityData(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long,
+    override val id: Long= 0,
     @Column()
-    override var name: String,
+    override var name: String = "",
     @Column()
-    override var description: String
+    override var description: String = ""
 ) : DataObject<Community, CommunityChangeRequest>, Community {
 
     companion object {

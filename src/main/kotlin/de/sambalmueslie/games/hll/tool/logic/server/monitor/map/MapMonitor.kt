@@ -32,16 +32,18 @@ class MapMonitor(
     private val currentMapCache: LoadingCache<Long, ServerMapData> = Caffeine.newBuilder()
         .maximumSize(1000)
         .expireAfterAccess(Duration.ofMinutes(10))
-        .build { serverId -> repository.findFirst1ByServerIdOrderByTimestampDesc(serverId) }
+        .build { serverId -> getCurrentMapDB(serverId) }
+
+    private fun getCurrentMapDB(serverId: Long) = repository.findFirst1ByServerIdOrderByTimestampDesc(serverId)
 
 
     fun getCurrentMap(serverId: Long) = currentMapCache[serverId]
 
-    fun register(listener: ServerMapChangeListener){
+    fun register(listener: ServerMapChangeListener) {
         listeners.add(listener)
     }
 
-    fun unregister(listener: ServerMapChangeListener){
+    fun unregister(listener: ServerMapChangeListener) {
         listeners.remove(listener)
     }
 
@@ -56,7 +58,7 @@ class MapMonitor(
 
     private fun updateServerMap(client: ServerClient) {
         val map = client.getMap()
-        val current = currentMapCache[client.id]
+        val current = getCurrentMapDB(client.id)
         if (current?.name == map) return
         handleMapChange(client, map, current)
     }

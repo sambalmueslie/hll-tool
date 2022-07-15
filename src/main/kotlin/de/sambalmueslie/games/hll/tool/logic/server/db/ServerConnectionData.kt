@@ -4,10 +4,10 @@ import de.sambalmueslie.games.hll.tool.common.DataObject
 import de.sambalmueslie.games.hll.tool.logic.server.api.Server
 import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnection
 import de.sambalmueslie.games.hll.tool.logic.server.api.ServerConnectionChangeRequest
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 
 @Entity(name = "ServerConnection")
 @Table(name = "server_connection")

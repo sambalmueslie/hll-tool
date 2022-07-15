@@ -12,5 +12,5 @@ class ServerInfoController(private val service: ServerInfoService) {
     fun getInfo(auth: Authentication, @PathVariable objId: Long) = service.getInfo(auth, objId)
 
     @Get("{objId}/maps")
-    fun getMapsInRotation(auth: Authentication, @PathVariable objId: Long) = service.getMapsInRotation(auth, objId)
+    fun getMaps(auth: Authentication, @PathVariable objId: Long) = service.getMaps(auth, objId)
 }

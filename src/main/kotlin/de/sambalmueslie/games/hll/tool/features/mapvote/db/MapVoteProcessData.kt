@@ -1,7 +1,7 @@
 package de.sambalmueslie.games.hll.tool.features.mapvote.db
 
 import de.sambalmueslie.games.hll.tool.game.api.MapInfo
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "MapVoteProcess")
 @Table(name = "map_vote_process")
@@ -9,11 +9,11 @@ data class MapVoteProcessData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long = 0,
     @Column(nullable = false)
-    val serverId: Long,
+    val serverId: Long = 0,
     @Column(nullable = false)
-    val mapId: Long,
+    val mapId: Long = 0,
     @Column(nullable = false)
-    val discordMessageId: Long,
+    val discordMessageId: Long = 0,
 ) {
 
 

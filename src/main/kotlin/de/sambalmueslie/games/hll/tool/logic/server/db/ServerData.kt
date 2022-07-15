@@ -3,17 +3,17 @@ package de.sambalmueslie.games.hll.tool.logic.server.db
 import de.sambalmueslie.games.hll.tool.common.DataObject
 import de.sambalmueslie.games.hll.tool.logic.server.api.Server
 import de.sambalmueslie.games.hll.tool.logic.server.api.ServerChangeRequest
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "Server")
 @Table(name = "server")
 data class ServerData(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long,
+    override val id: Long = 0,
     @Column()
-    override var name: String,
+    override var name: String = "",
     @Column()
-    override var description: String
+    override var description: String = ""
 ) : DataObject<Server, ServerChangeRequest>, Server {
     companion object {
         fun create(request: ServerChangeRequest): ServerData {

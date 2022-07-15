@@ -1,6 +1,6 @@
 package de.sambalmueslie.games.hll.tool.features.mapvote.db
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "MapVotePlayerEntry")
 @Table(name = "map_vote_player_entry")

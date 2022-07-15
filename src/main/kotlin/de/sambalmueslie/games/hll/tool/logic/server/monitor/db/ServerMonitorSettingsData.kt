@@ -1,16 +1,16 @@
 package de.sambalmueslie.games.hll.tool.logic.server.monitor.db
 
 import de.sambalmueslie.games.hll.tool.logic.server.monitor.api.ServerMonitorSettings
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 
 @Entity(name = "ServerMonitorSettings")
 @Table(name = "server_monitor_settings")
 data class ServerMonitorSettingsData(
     @Id
-    val serverId: Long,
+    val serverId: Long = 0,
     @Column(nullable = false)
     override var mapTrackingEnabled: Boolean = false,
     @Column(nullable = false)

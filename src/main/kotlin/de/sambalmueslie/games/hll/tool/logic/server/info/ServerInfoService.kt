@@ -74,7 +74,7 @@ class ServerInfoService(
         return infoRepository.save(ServerInfoData(client.id, client.name))
     }
 
-    fun getMapsInRotation(authentication: Authentication, objId: Long): Set<String> {
+    fun getMaps(authentication: Authentication, objId: Long): Set<String> {
         val server = serverService.get(authentication, objId) ?: return emptySet()
         val client = monitorService.getClient(server) ?: return emptySet()
         return client.mapsInRotation

@@ -1,6 +1,6 @@
 package de.sambalmueslie.games.hll.tool.features.mapvote.db
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "MapVoteServerSettings")
 @Table(name = "map_vote_server_settings")
@@ -16,7 +16,7 @@ data class MapVoteServerSettingsData(
     @Column(nullable = false)
     var userChannelId: Long = -1,
     @Column(nullable = false)
-    var guildId: Long,
+    var guildId: Long = 0,
     @Column(nullable = false)
     var mapVoteAmount: Int = 8
 )

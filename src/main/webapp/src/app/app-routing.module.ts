@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: 'community', loadChildren: () => import('./community/community.module').then(m => m.CommunityModule), canActivate: [AuthGuard]},
   {path: 'server', loadChildren: () => import('./server/server.module').then(m => m.ServerModule), canActivate: [AuthGuard]},
   {path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard]},
+  {path: 'game', loadChildren: () => import('./game/game.module').then(m => m.GameModule), canActivate: [AuthGuard]},
   {path: '**', loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)}
 ];
 

@@ -4,7 +4,7 @@ import de.sambalmueslie.games.hll.tool.util.DurationConverter
 import io.micronaut.data.annotation.TypeDef
 import io.micronaut.data.model.DataType
 import java.time.Duration
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "ServerMapStatsEntry")
 @Table(name = "server_map_stats")

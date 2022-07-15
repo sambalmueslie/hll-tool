@@ -4,8 +4,7 @@ import de.sambalmueslie.games.hll.tool.common.DataObject
 import de.sambalmueslie.games.hll.tool.game.api.MapDefinition
 import de.sambalmueslie.games.hll.tool.game.api.MapDefinitionChangeRequest
 import de.sambalmueslie.games.hll.tool.game.api.MapType
-import de.sambalmueslie.games.hll.tool.game.api.NationDefinition
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "MapDefinition")
 @Table(name = "game_map_definition")
@@ -13,19 +12,21 @@ data class MapDefinitionData(
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     override var id: Long = 0,
     @Column(nullable = false, unique = true)
-    var key: String,
+    var key: String = "",
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var type: MapType = MapType.WARFARE,
     @Column(nullable = false)
-    var attackerId: Long,
+    var attackerId: Long = 0,
     @Column(nullable = false)
-    var defenderId: Long,
+    var defenderId: Long = 0,
 ) : DataObject<MapDefinition, MapDefinitionChangeRequest> {
 
     companion object {
-        fun create(attacker: NationDefinition, defender: NationDefinition, request: MapDefinitionChangeRequest) =
-            MapDefinitionData(0, request.key, request.type, attacker.id, defender.id)
+
+        fun create(request: MapDefinitionChangeRequest): MapDefinitionData {
+            return MapDefinitionData(0, request.key, request.type, request.attackerId, request.defenderId)
+        }
     }
 
     override fun convert() = MapDefinition(id, key, type, attackerId, defenderId)

@@ -3,7 +3,7 @@ package de.sambalmueslie.games.hll.tool.logic.server.monitor.map.db
 import de.sambalmueslie.games.hll.tool.logic.server.monitor.map.api.ServerMap
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity(name = "ServerMap")
 @Table(name = "server_map")
